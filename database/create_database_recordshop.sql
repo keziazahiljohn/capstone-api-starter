@@ -3,7 +3,7 @@ USE sys;
 # ---------------------------------------------------------------------- #
 # Target DBMS:           MySQL                                           #
 # Project name:          RecordShop                                      #
-# ---------------------------------------------------------------------- #
+p@ssw0rd!# ---------------------------------------------------------------------- #
 DROP DATABASE IF EXISTS recordshop;
 
 CREATE DATABASE IF NOT EXISTS recordshop;
