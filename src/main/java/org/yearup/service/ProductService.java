@@ -35,6 +35,10 @@ public class ProductService
         return productRepository.findByCategoryId(categoryId);
     }
 
+    public List<Product> getProductsByCategory(int categoryId) {
+        return productRepository.findByCategoryId(categoryId);
+    }
+
     public Product getById(int productId)
     {
         return productRepository.findById(productId).orElse(null);

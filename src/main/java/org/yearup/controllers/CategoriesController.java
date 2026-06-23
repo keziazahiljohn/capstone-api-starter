@@ -1,9 +1,14 @@
 package org.yearup.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 import org.yearup.models.Category;
 import org.yearup.models.Product;
 import org.yearup.service.CategoryService;
@@ -22,19 +27,27 @@ public class CategoriesController
 
 
     // create an Autowired constructor to inject the categoryService and productService
-
-    // add the appropriate annotation for a get action
-    public List<Category> getAll()
-    {
-        // find and return all categories
-        return null;
+    @Autowired
+    public CategoriesController(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
-    // add the appropriate annotation for a get action
+    @GetMapping
+    public List<Category> getAll(@RequestParam(required = false) String name,
+                                 @RequestParam(required = false) String description)
+    {
+
+        return categoryService.search(name, description);
+    }
+
+    @GetMapping("/{id}")
     public Category getById(@PathVariable int id)
     {
-        // get the category by id
-        return null;
+        Category category =categoryService.getById(id);
+        if (category == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Category with id " + id);
+        }
+        return category;
     }
 
     // the url to return all products in category 1 would look like this
@@ -42,8 +55,7 @@ public class CategoriesController
     @GetMapping("{categoryId}/products")
     public List<Product> getProductsById(@PathVariable int categoryId)
     {
-        // get a list of product by categoryId
-        return null;
+        return productService.getProductsByCategory(categoryId);
     }
 
     // add annotation to call this method for a POST action
