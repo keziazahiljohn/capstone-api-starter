@@ -43,7 +43,7 @@ public class CategoriesController
     @GetMapping("/{id}")
     public Category getById(@PathVariable int id)
     {
-        Category category =categoryService.getById(id);
+        Category category = categoryService.getById(id);
         if (category == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Category with id " + id);
         }
