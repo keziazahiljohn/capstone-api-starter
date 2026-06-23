@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.yearup.models.Category;
 import org.yearup.models.Product;
@@ -60,6 +58,8 @@ public class CategoriesController
 
     // add annotation to call this method for a POST action
     // add annotation to ensure that only an ADMIN can call this function
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping
     public ResponseEntity<Category> addCategory(@RequestBody Category category)
     {
         // insert the category and return it with status 201 Created
