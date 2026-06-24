@@ -18,6 +18,10 @@ import java.util.List;
 // add the annotation to make this controller the endpoint for the following url
     // http://localhost:8080/categories
 // add annotation to allow cross site origin requests
+
+@RestController
+@RequestMapping("/categories")
+@CrossOrigin
 public class CategoriesController
 {
     private CategoryService categoryService;
@@ -50,7 +54,7 @@ public class CategoriesController
 
     // the url to return all products in category 1 would look like this
     // https://localhost:8080/categories/1/products
-    @GetMapping("{categoryId}/products")
+    @GetMapping("/{categoryId}/products")
     public List<Product> getProductsById(@PathVariable int categoryId)
     {
         return productService.getProductsByCategory(categoryId);
@@ -66,7 +70,7 @@ public class CategoriesController
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping
+    @PostMapping("/{id}")
     // add annotation to call this method for a PUT (update) action - the url path must include the categoryId
     // add annotation to ensure that only an ADMIN can call this function
     public Category updateCategory(@PathVariable int id, @RequestBody Category category)
