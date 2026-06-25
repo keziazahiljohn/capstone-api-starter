@@ -26,13 +26,13 @@ public class CategoryService
     {
         return categoryRepository.findById(categoryId).orElse(null);
     }
-
-    public List<Category> search(String name, String description){
-        return categoryRepository.findAll().stream()
-                .filter(category -> name == null || category.getName().toLowerCase().contains(name.toLowerCase()))
-                .filter(category -> description == null || category.getDescription().toLowerCase().contains(description.toLowerCase()))
-                .toList();
-    }
+// dont need (accidentally created by copying sneaker drops XD)
+//    public List<Category> search(String name, String description){
+//        return categoryRepository.findAll().stream()
+//                .filter(category -> name == null || category.getName().toLowerCase().contains(name.toLowerCase()))
+//                .filter(category -> description == null || category.getDescription().toLowerCase().contains(description.toLowerCase()))
+//                .toList();
+//    }
 
     // CRUD
 
