@@ -1,8 +1,7 @@
 package org.yearup.controllers;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import org.yearup.models.ShoppingCart;
 import org.yearup.models.User;
 import org.yearup.service.ShoppingCartService;
@@ -27,9 +26,10 @@ public class ShoppingCartController
     }
 
     // each method in this controller requires a Principal object as a parameter
+    @GetMapping
     public ShoppingCart getCart(Principal principal)
     {
-        // get the currently logged in username
+        // get the currently logged-username
         String userName = principal.getName();
         // find database user by username
         User user = userService.getByUserName(userName);
@@ -42,8 +42,17 @@ public class ShoppingCartController
     // add a POST method to add a product to the cart - the url should be
     // https://localhost:8080/cart/products/15  (15 is the productId to be added)
     // return the updated cart with status 201 Created
+    @PostMapping("products/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ShoppingCart addProduct(@PathVariable int productId, Principal principal) {
+        // Principal is a security object in spring that shows currently logged-in user
+        String userName = principal.getName();
+        User user = userService.getByUserName(userName);
 
+        shoppingCartService.addProduct(user.getId(), productId);
 
+        return shoppingCartService.getByUserId(user.getId());
+    }
 
     // add a PUT method to update an existing product in the cart - the url should be
     // https://localhost:8080/cart/products/15  (15 is the productId to be updated)
